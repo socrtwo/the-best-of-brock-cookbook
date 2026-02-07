@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B1A1A"/>
+      <stop offset="50%" style="stop-color:#6B1010"/>
+      <stop offset="100%" style="stop-color:#3D0C0C"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4A574"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
+    </linearGradient>
+    <linearGradient id="icon" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8C9A0;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#D4A574;stop-opacity:0.7"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <circle cx="50" cy="50" r="200" fill="#ffffff" opacity="0.03"/>
+  <circle cx="550" cy="350" r="250" fill="#ffffff" opacity="0.03"/>
+  <rect x="15" y="15" width="570" height="370" rx="8" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.7"/>
+  <rect x="22" y="22" width="556" height="356" rx="5" fill="none" stroke="url(#accent)" stroke-width="0.5" opacity="0.5"/>
+  <path d="M30,45 L30,30 L45,30" fill="none" stroke="#D4A574" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M570,45 L570,30 L555,30" fill="none" stroke="#D4A574" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M30,355 L30,370 L45,370" fill="none" stroke="#D4A574" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M570,355 L570,370 L555,370" fill="none" stroke="#D4A574" stroke-width="2.5" stroke-linecap="round"/>
+  <g transform="translate(300, 165)">
+    <ellipse cx="0" cy="0" rx="75" ry="55" fill="url(#icon)" opacity="0.85"/>
+    <rect x="-4" y="-50" width="8" height="55" rx="3" fill="#3D0C0C" opacity="0.6"/>
+    <rect x="-25" y="-50" width="50" height="8" rx="3" fill="#3D0C0C" opacity="0.6"/>
+    <line x1="-45" y1="-15" x2="45" y2="-15" stroke="#8B1A1A" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+    <line x1="-50" y1="0" x2="50" y2="0" stroke="#8B1A1A" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+    <line x1="-45" y1="15" x2="45" y2="15" stroke="#8B1A1A" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+    <g transform="translate(55, 30) rotate(-30)">
+      <line x1="0" y1="0" x2="40" y2="0" stroke="#5B7A3A" stroke-width="2"/>
+      <ellipse cx="10" cy="-4" rx="6" ry="2.5" fill="#6B8E3A" opacity="0.8" transform="rotate(-20, 10, -4)"/>
+      <ellipse cx="18" cy="-5" rx="6" ry="2.5" fill="#6B8E3A" opacity="0.8" transform="rotate(-25, 18, -5)"/>
+      <ellipse cx="26" cy="-4" rx="6" ry="2.5" fill="#6B8E3A" opacity="0.8" transform="rotate(-20, 26, -4)"/>
+      <ellipse cx="10" cy="4" rx="6" ry="2.5" fill="#5B7A3A" opacity="0.8" transform="rotate(20, 10, 4)"/>
+      <ellipse cx="18" cy="5" rx="6" ry="2.5" fill="#5B7A3A" opacity="0.8" transform="rotate(25, 18, 5)"/>
+      <ellipse cx="26" cy="4" rx="6" ry="2.5" fill="#5B7A3A" opacity="0.8" transform="rotate(20, 26, 4)"/>
+    </g>
+  </g>
+  <line x1="180" y1="245" x2="420" y2="245" stroke="#D4A574" stroke-width="1" opacity="0.6"/>
+  <circle cx="300" cy="245" r="3" fill="#D4A574" opacity="0.8"/>
+  <circle cx="180" cy="245" r="2" fill="#D4A574" opacity="0.6"/>
+  <circle cx="420" cy="245" r="2" fill="#D4A574" opacity="0.6"/>
+  <text x="300" y="290" text-anchor="middle" font-family="Georgia,serif" font-size="42" font-weight="bold" fill="#E8C9A0" letter-spacing="3">BEEF</text>
+  <text x="300" y="325" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#D4A574" letter-spacing="6" font-style="italic" opacity="0.8">RECIPES</text>
+  <line x1="230" y1="345" x2="270" y2="345" stroke="#D4A574" stroke-width="0.8" opacity="0.5"/>
+  <line x1="330" y1="345" x2="370" y2="345" stroke="#D4A574" stroke-width="0.8" opacity="0.5"/>
+</svg>

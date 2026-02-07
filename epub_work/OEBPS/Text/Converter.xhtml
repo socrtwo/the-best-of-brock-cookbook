@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Unit Converter</title>
+  <link href="../Styles/tools-modern.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript">
+  //<![CDATA[
+  var conversions = {
+    'tsp':    { mL: 4.929, label: 'teaspoon' },
+    'tbsp':   { mL: 14.787, label: 'tablespoon' },
+    'fl oz':  { mL: 29.574, label: 'fluid ounce' },
+    'cup':    { mL: 236.588, label: 'cup' },
+    'pint':   { mL: 473.176, label: 'pint' },
+    'quart':  { mL: 946.353, label: 'quart' },
+    'gallon': { mL: 3785.41, label: 'gallon' },
+    'mL':     { mL: 1, label: 'milliliter' },
+    'L':      { mL: 1000, label: 'liter' }
+  };
+  var weightConversions = {
+    'oz': { g: 28.3495, label: 'ounce' },
+    'lb': { g: 453.592, label: 'pound' },
+    'g':  { g: 1, label: 'gram' },
+    'kg': { g: 1000, label: 'kilogram' }
+  };
+  var tempConversions = { 'F': 'Fahrenheit', 'C': 'Celsius' };
+  var lengthConversions = {
+    'in': { mm: 25.4, label: 'inch' },
+    'cm': { mm: 10, label: 'centimeter' },
+    'mm': { mm: 1, label: 'millimeter' }
+  };
+
+  function convertVolume() {
+    var val = parseFloat(document.getElementById('volInput').value);
+    var from = document.getElementById('volFrom').value;
+    var to = document.getElementById('volTo').value;
+    var el = document.getElementById('volResult');
+    if (isNaN(val) || val < 0) { el.innerHTML = ''; return; }
+    var result = (val * conversions[from].mL) / conversions[to].mL;
+    el.innerHTML = '<strong>' + fmtN(val) + ' ' + pluralize(conversions[from].label, val) + '</strong> = <strong>' + fmtN(result) + ' ' + pluralize(conversions[to].label, result) + '</strong>';
+  }
+  function convertWeight() {
+    var val = parseFloat(document.getElementById('wgtInput').value);
+    var from = document.getElementById('wgtFrom').value;
+    var to = document.getElementById('wgtTo').value;
+    var el = document.getElementById('wgtResult');
+    if (isNaN(val) || val < 0) { el.innerHTML = ''; return; }
+    var result = (val * weightConversions[from].g) / weightConversions[to].g;
+    el.innerHTML = '<strong>' + fmtN(val) + ' ' + pluralize(weightConversions[from].label, val) + '</strong> = <strong>' + fmtN(result) + ' ' + pluralize(weightConversions[to].label, result) + '</strong>';
+  }
+  function convertTemp() {
+    var val = parseFloat(document.getElementById('tempInput').value);
+    var from = document.getElementById('tempFrom').value;
+    var el = document.getElementById('tempResult');
+    if (isNaN(val)) { el.innerHTML = ''; return; }
+    var result, to;
+    if (from === 'F') { result = (val - 32) * 5 / 9; to = 'C'; }
+    else { result = (val * 9 / 5) + 32; to = 'F'; }
+    el.innerHTML = '<strong>' + fmtN(val) + '\u00B0 ' + tempConversions[from] + '</strong> = <strong>' + fmtN(result) + '\u00B0 ' + tempConversions[to] + '</strong>';
+  }
+  function convertLength() {
+    var val = parseFloat(document.getElementById('lenInput').value);
+    var from = document.getElementById('lenFrom').value;
+    var to = document.getElementById('lenTo').value;
+    var el = document.getElementById('lenResult');
+    if (isNaN(val) || val < 0) { el.innerHTML = ''; return; }
+    var result = (val * lengthConversions[from].mm) / lengthConversions[to].mm;
+    el.innerHTML = '<strong>' + fmtN(val) + ' ' + pluralize(lengthConversions[from].label, val) + '</strong> = <strong>' + fmtN(result) + ' ' + pluralize(lengthConversions[to].label, result) + '</strong>';
+  }
+  function fmtN(n) {
+    if (n === Math.floor(n)) return '' + n;
+    if (Math.abs(n) < 0.01) return n.toFixed(3);
+    return parseFloat(n.toFixed(3)).toString();
+  }
+  function pluralize(word, n) {
+    if (Math.abs(n - 1) < 0.001) return word;
+    return word + 's';
+  }
+  //]]>
+  </script>
+</head>
+
+<body class="tool-page">
+
+  <div class="tool-header">
+    <h1>Unit Converter</h1>
+    <p class="subtitle">Convert between US customary and metric measures</p>
+  </div>
+
+  <div class="tool-card">
+    <h2>Volume</h2>
+    <div class="converter-row">
+      <input class="tool-input" id="volInput" type="number" min="0" step="any" placeholder="Amount" onkeyup="convertVolume()" onchange="convertVolume()"/>
+      <select class="converter-select" id="volFrom" onchange="convertVolume()" style="width:auto;">
+        <option value="tsp">tsp</option>
+        <option value="tbsp">tbsp</option>
+        <option value="fl oz">fl oz</option>
+        <option value="cup" selected="selected">cup</option>
+        <option value="pint">pint</option>
+        <option value="quart">quart</option>
+        <option value="gallon">gallon</option>
+        <option value="mL">mL</option>
+        <option value="L">liter</option>
+      </select>
+      <span class="converter-arrow">&#8594;</span>
+      <select class="converter-select" id="volTo" onchange="convertVolume()" style="width:auto;">
+        <option value="tsp">tsp</option>
+        <option value="tbsp">tbsp</option>
+        <option value="fl oz">fl oz</option>
+        <option value="cup">cup</option>
+        <option value="pint">pint</option>
+        <option value="quart">quart</option>
+        <option value="gallon">gallon</option>
+        <option value="mL" selected="selected">mL</option>
+        <option value="L">liter</option>
+      </select>
+    </div>
+    <div id="volResult" class="tool-msg tool-msg-info" style="min-height:20px;"></div>
+    <div class="quick-convert">
+      <span class="quick-badge">1 cup = 240 mL</span>
+      <span class="quick-badge">1 tbsp = 15 mL</span>
+      <span class="quick-badge">1 tsp = 5 mL</span>
+      <span class="quick-badge">1 quart = 4 cups</span>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <h2>Weight</h2>
+    <div class="converter-row">
+      <input class="tool-input" id="wgtInput" type="number" min="0" step="any" placeholder="Amount" onkeyup="convertWeight()" onchange="convertWeight()"/>
+      <select class="converter-select" id="wgtFrom" onchange="convertWeight()" style="width:auto;">
+        <option value="oz" selected="selected">oz</option>
+        <option value="lb">lb</option>
+        <option value="g">gram</option>
+        <option value="kg">kg</option>
+      </select>
+      <span class="converter-arrow">&#8594;</span>
+      <select class="converter-select" id="wgtTo" onchange="convertWeight()" style="width:auto;">
+        <option value="oz">oz</option>
+        <option value="lb">lb</option>
+        <option value="g" selected="selected">gram</option>
+        <option value="kg">kg</option>
+      </select>
+    </div>
+    <div id="wgtResult" class="tool-msg tool-msg-info" style="min-height:20px;"></div>
+    <div class="quick-convert">
+      <span class="quick-badge">1 oz = 28 g</span>
+      <span class="quick-badge">1 lb = 454 g</span>
+      <span class="quick-badge">1 kg = 2.2 lb</span>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <h2>Temperature</h2>
+    <div class="converter-row">
+      <input class="tool-input" id="tempInput" type="number" step="any" placeholder="Degrees" onkeyup="convertTemp()" onchange="convertTemp()"/>
+      <select class="converter-select" id="tempFrom" onchange="convertTemp()" style="width:auto;">
+        <option value="F" selected="selected">&#176;F (Fahrenheit)</option>
+        <option value="C">&#176;C (Celsius)</option>
+      </select>
+    </div>
+    <div id="tempResult" class="tool-msg tool-msg-info" style="min-height:20px;"></div>
+    <div class="quick-convert">
+      <span class="quick-badge">325&#176;F = 163&#176;C</span>
+      <span class="quick-badge">350&#176;F = 177&#176;C</span>
+      <span class="quick-badge">375&#176;F = 191&#176;C</span>
+      <span class="quick-badge">400&#176;F = 204&#176;C</span>
+      <span class="quick-badge">425&#176;F = 218&#176;C</span>
+      <span class="quick-badge">450&#176;F = 232&#176;C</span>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <h2>Length</h2>
+    <div class="converter-row">
+      <input class="tool-input" id="lenInput" type="number" min="0" step="any" placeholder="Amount" onkeyup="convertLength()" onchange="convertLength()"/>
+      <select class="converter-select" id="lenFrom" onchange="convertLength()" style="width:auto;">
+        <option value="in" selected="selected">inch</option>
+        <option value="cm">cm</option>
+        <option value="mm">mm</option>
+      </select>
+      <span class="converter-arrow">&#8594;</span>
+      <select class="converter-select" id="lenTo" onchange="convertLength()" style="width:auto;">
+        <option value="in">inch</option>
+        <option value="cm" selected="selected">cm</option>
+        <option value="mm">mm</option>
+      </select>
+    </div>
+    <div id="lenResult" class="tool-msg tool-msg-info" style="min-height:20px;"></div>
+  </div>
+
+  <div class="tool-card">
+    <h2>Ingredient Weight Reference</h2>
+    <p style="font-size:0.85em; color:#5d6d7e; margin-bottom:12px;">Common baking ingredient weights when measured by volume.</p>
+    <table class="conv-table">
+      <tr><th>Ingredient</th><th>1 cup</th><th>&#189; cup</th><th>&#188; cup</th></tr>
+      <tr><td>All-purpose flour</td><td>120 g</td><td>60 g</td><td>30 g</td></tr>
+      <tr><td>Granulated sugar</td><td>200 g</td><td>100 g</td><td>50 g</td></tr>
+      <tr><td>Brown sugar (packed)</td><td>180 g</td><td>90 g</td><td>45 g</td></tr>
+      <tr><td>Confectioner's sugar</td><td>100 g</td><td>50 g</td><td>25 g</td></tr>
+      <tr><td>Butter</td><td>240 g</td><td>120 g</td><td>60 g</td></tr>
+      <tr><td>Rice (uncooked)</td><td>190 g</td><td>95 g</td><td>48 g</td></tr>
+      <tr><td>Oats (quick)</td><td>90 g</td><td>45 g</td><td>22 g</td></tr>
+      <tr><td>Corn starch</td><td>120 g</td><td>60 g</td><td>30 g</td></tr>
+      <tr><td>Parmesan (grated)</td><td>90 g</td><td>45 g</td><td>22 g</td></tr>
+      <tr><td>Bread crumbs (dry)</td><td>150 g</td><td>75 g</td><td>40 g</td></tr>
+      <tr><td>Chopped nuts</td><td>150 g</td><td>75 g</td><td>40 g</td></tr>
+    </table>
+  </div>
+
+</body>
+</html>

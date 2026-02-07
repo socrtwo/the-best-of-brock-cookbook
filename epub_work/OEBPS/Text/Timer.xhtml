@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Kitchen Timer</title>
+  <link href="../Styles/tools-modern.css" rel="stylesheet" type="text/css"/>
+  <script src="../Misc/Timer.js" type="text/javascript"> </script>
+</head>
+
+<body class="tool-page">
+
+  <div class="tool-header">
+    <h1>Kitchen Timer</h1>
+    <p class="subtitle">Set your timer and cook with confidence</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="timer-display" id="timerDisplay">
+      <p class="timer-digits" id="timerDigits">00:00:00</p>
+      <div class="timer-labels">
+        <span>hrs</span>
+        <span>min</span>
+        <span>sec</span>
+      </div>
+    </div>
+
+    <div class="timer-controls">
+      <div class="timer-set-group">
+        <label>Hours</label>
+        <div class="timer-adjust">
+          <button class="timer-adjust-btn" onclick="adjustTime('hours', -1)" type="button">-</button>
+          <input id="hours" maxlength="2" type="text" value="00"/>
+          <button class="timer-adjust-btn" onclick="adjustTime('hours', 1)" type="button">+</button>
+        </div>
+      </div>
+      <div class="timer-set-group">
+        <label>Minutes</label>
+        <div class="timer-adjust">
+          <button class="timer-adjust-btn" onclick="adjustTime('min', -1)" type="button">-</button>
+          <input id="min" maxlength="2" type="text" value="00"/>
+          <button class="timer-adjust-btn" onclick="adjustTime('min', 1)" type="button">+</button>
+        </div>
+      </div>
+      <div class="timer-set-group">
+        <label>Seconds</label>
+        <div class="timer-adjust">
+          <button class="timer-adjust-btn" onclick="adjustTime('sec', -1)" type="button">-</button>
+          <input id="sec" maxlength="2" type="text" value="00"/>
+          <button class="timer-adjust-btn" onclick="adjustTime('sec', 1)" type="button">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="timer-presets">
+      <button class="timer-preset-btn" onclick="setPreset(0,1,0)" type="button">1 min</button>
+      <button class="timer-preset-btn" onclick="setPreset(0,3,0)" type="button">3 min</button>
+      <button class="timer-preset-btn" onclick="setPreset(0,5,0)" type="button">5 min</button>
+      <button class="timer-preset-btn" onclick="setPreset(0,10,0)" type="button">10 min</button>
+      <button class="timer-preset-btn" onclick="setPreset(0,15,0)" type="button">15 min</button>
+      <button class="timer-preset-btn" onclick="setPreset(0,20,0)" type="button">20 min</button>
+      <button class="timer-preset-btn" onclick="setPreset(0,30,0)" type="button">30 min</button>
+      <button class="timer-preset-btn" onclick="setPreset(0,45,0)" type="button">45 min</button>
+      <button class="timer-preset-btn" onclick="setPreset(1,0,0)" type="button">1 hr</button>
+      <button class="timer-preset-btn" onclick="setPreset(1,30,0)" type="button">1.5 hr</button>
+      <button class="timer-preset-btn" onclick="setPreset(2,0,0)" type="button">2 hr</button>
+    </div>
+
+    <div class="tool-btn-group" style="justify-content: center;">
+      <button class="tool-btn tool-btn-success tool-btn-lg" id="btnStart" onclick="startTimer()" type="button">Start</button>
+      <button class="tool-btn tool-btn-info tool-btn-lg" id="btnPause" onclick="pauseTimer()" type="button" disabled="disabled">Pause</button>
+      <button class="tool-btn tool-btn-outline tool-btn-lg" id="btnReset" onclick="resetTimer()" type="button">Reset</button>
+    </div>
+  </div>
+
+  <div class="tool-card" id="alertCard" style="display:none; text-align:center;">
+    <p style="font-size:1.3em; color:#c0392b; font-weight:bold;">Timer Complete!</p>
+    <button class="tool-btn tool-btn-danger" onclick="stopAlert()" type="button">Dismiss</button>
+  </div>
+
+  <audio id="timerAudio" preload="auto">
+    <source src="../Audio/airhorn.mp3" type="audio/mpeg"/>
+  </audio>
+
+</body>
+</html>
