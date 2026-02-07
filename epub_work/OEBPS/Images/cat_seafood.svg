@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1565C0"/>
+      <stop offset="50%" style="stop-color:#0D47A1"/>
+      <stop offset="100%" style="stop-color:#0A3D8F"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E3F2FD"/>
+      <stop offset="100%" style="stop-color:#BBDEFB"/>
+    </linearGradient>
+    <linearGradient id="fish" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#E3F2FD;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#BBDEFB;stop-opacity:0.7"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <circle cx="200" cy="120" r="180" fill="#E3F2FD" opacity="0.05"/>
+  <circle cx="450" cy="320" r="140" fill="#E3F2FD" opacity="0.03"/>
+  <rect x="15" y="15" width="570" height="370" rx="8" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.6"/>
+  <rect x="22" y="22" width="556" height="356" rx="5" fill="none" stroke="url(#accent)" stroke-width="0.5" opacity="0.4"/>
+  <path d="M30,45 L30,30 L45,30" fill="none" stroke="#E3F2FD" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M570,45 L570,30 L555,30" fill="none" stroke="#E3F2FD" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M30,355 L30,370 L45,370" fill="none" stroke="#E3F2FD" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M570,355 L570,370 L555,370" fill="none" stroke="#E3F2FD" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Waves background -->
+  <g opacity="0.1">
+    <path d="M40,200 Q100,185 160,200 Q220,215 280,200 Q340,185 400,200 Q460,215 520,200 Q550,192 560,200" fill="none" stroke="#E3F2FD" stroke-width="2"/>
+    <path d="M40,215 Q100,200 160,215 Q220,230 280,215 Q340,200 400,215 Q460,230 520,215 Q550,207 560,215" fill="none" stroke="#E3F2FD" stroke-width="1.5"/>
+  </g>
+  <g transform="translate(300, 145)">
+    <!-- Fish body -->
+    <path d="M-70,0 Q-50,-40 0,-35 Q40,-30 60,-10 Q75,0 60,10 Q40,30 0,35 Q-50,40 -70,0 Z" fill="url(#fish)" opacity="0.85"/>
+    <!-- Tail fin -->
+    <path d="M-70,0 Q-90,-25 -85,-40 Q-75,-20 -70,0 Q-75,20 -85,40 Q-90,25 -70,0 Z" fill="url(#fish)" opacity="0.7"/>
+    <!-- Dorsal fin -->
+    <path d="M-15,-30 Q0,-55 20,-30" fill="url(#fish)" opacity="0.6"/>
+    <!-- Eye -->
+    <circle cx="40" cy="-8" r="6" fill="#0D47A1" opacity="0.5"/>
+    <circle cx="42" cy="-9" r="2.5" fill="#E3F2FD" opacity="0.8"/>
+    <!-- Gill line -->
+    <path d="M25,-15 Q20,0 25,15" fill="none" stroke="#0D47A1" stroke-width="1.5" opacity="0.3"/>
+    <!-- Scale pattern hints -->
+    <path d="M-10,-10 Q-5,-15 0,-10" fill="none" stroke="#1565C0" stroke-width="1" opacity="0.2"/>
+    <path d="M5,-5 Q10,-10 15,-5" fill="none" stroke="#1565C0" stroke-width="1" opacity="0.2"/>
+    <path d="M-15,5 Q-10,0 -5,5" fill="none" stroke="#1565C0" stroke-width="1" opacity="0.2"/>
+    <path d="M0,10 Q5,5 10,10" fill="none" stroke="#1565C0" stroke-width="1" opacity="0.2"/>
+    <path d="M-30,0 Q-25,-5 -20,0" fill="none" stroke="#1565C0" stroke-width="1" opacity="0.15"/>
+    <!-- Bubbles -->
+    <circle cx="70" cy="-20" r="4" fill="none" stroke="#E3F2FD" stroke-width="1" opacity="0.3"/>
+    <circle cx="80" cy="-30" r="3" fill="none" stroke="#E3F2FD" stroke-width="1" opacity="0.25"/>
+    <circle cx="75" cy="-40" r="2" fill="none" stroke="#E3F2FD" stroke-width="1" opacity="0.2"/>
+  </g>
+  <!-- Bottom waves -->
+  <g opacity="0.08">
+    <path d="M40,230 Q100,220 160,230 Q220,240 280,230 Q340,220 400,230 Q460,240 520,230 Q550,225 560,230" fill="none" stroke="#E3F2FD" stroke-width="1.5"/>
+  </g>
+  <line x1="170" y1="248" x2="430" y2="248" stroke="#E3F2FD" stroke-width="1" opacity="0.5"/>
+  <circle cx="300" cy="248" r="3" fill="#E3F2FD" opacity="0.7"/>
+  <circle cx="170" cy="248" r="2" fill="#E3F2FD" opacity="0.5"/>
+  <circle cx="430" cy="248" r="2" fill="#E3F2FD" opacity="0.5"/>
+  <text x="300" y="293" text-anchor="middle" font-family="Georgia,serif" font-size="40" font-weight="bold" fill="#E3F2FD" letter-spacing="3">SEAFOOD</text>
+  <text x="300" y="325" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#BBDEFB" letter-spacing="6" font-style="italic" opacity="0.85">FROM THE SEA</text>
+  <line x1="230" y1="348" x2="270" y2="348" stroke="#E3F2FD" stroke-width="0.8" opacity="0.5"/>
+  <line x1="330" y1="348" x2="370" y2="348" stroke="#E3F2FD" stroke-width="0.8" opacity="0.5"/>
+</svg>

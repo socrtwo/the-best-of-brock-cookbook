@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Recipe Multiplier</title>
+  <link href="../Styles/tools-modern.css" rel="stylesheet" type="text/css"/>
+  <script src="../Misc/Multiplier61.js" type="text/javascript"> </script>
+</head>
+
+<body class="tool-page">
+
+  <div class="tool-header">
+    <h1>Recipe Multiplier</h1>
+    <p class="subtitle">Scale any recipe up or down</p>
+  </div>
+
+  <div class="tool-card">
+    <h2>Serving Size</h2>
+    <div class="multiplier-servings">
+      <div>
+        <label class="tool-label">Original Servings</label>
+        <input class="tool-input tool-input-sm" id="old" type="number" min="1" step="1" value="" placeholder="e.g. 8"/>
+      </div>
+      <div style="padding-bottom:10px; text-align:center; color:#95a5a6; font-size:1.5em;">&#8594;</div>
+      <div>
+        <label class="tool-label">Desired Servings</label>
+        <input class="tool-input tool-input-sm" id="new" type="number" min="1" step="1" value="" placeholder="e.g. 4"/>
+      </div>
+    </div>
+    <div class="multiplier-ratio" id="ratioDisplay" style="display:none;">
+      Multiplier: <strong id="ratioValue">1.00x</strong>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <div class="multiplier-columns">
+      <div>
+        <h3>Paste Recipe Ingredients</h3>
+        <textarea class="tool-textarea" id="area" rows="15" placeholder="Paste your ingredient list here, one per line. Example:&#10;&#10;2 cups flour&#10;1/2 tsp salt&#10;3 eggs&#10;1 cup milk"></textarea>
+      </div>
+      <div>
+        <h3>Scaled Result</h3>
+        <textarea class="tool-textarea" id="results" rows="15" readonly="readonly" placeholder="Scaled ingredients will appear here..." style="background:#f8f4ef;"></textarea>
+      </div>
+    </div>
+
+    <div class="tool-btn-group" style="justify-content:center;">
+      <button class="tool-btn tool-btn-primary tool-btn-lg" onclick="Calculate()" type="button">Scale Recipe</button>
+      <button class="tool-btn tool-btn-outline" onclick="clearAll()" type="button">Clear</button>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <h2>Quick Reference: Common Scaling</h2>
+    <div class="quick-convert">
+      <span class="quick-badge">Half: 8 &#8594; 4 servings</span>
+      <span class="quick-badge">Double: 4 &#8594; 8 servings</span>
+      <span class="quick-badge">Third: 12 &#8594; 4 servings</span>
+      <span class="quick-badge">Quarter: 20 &#8594; 5 servings</span>
+    </div>
+  </div>
+
+</body>
+</html>

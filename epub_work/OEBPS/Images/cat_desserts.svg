@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4728C"/>
+      <stop offset="50%" style="stop-color:#C25A78"/>
+      <stop offset="100%" style="stop-color:#A04060"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF0F5"/>
+      <stop offset="100%" style="stop-color:#FFD6E0"/>
+    </linearGradient>
+    <linearGradient id="cake" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF0F5;stop-opacity:0.95"/>
+      <stop offset="100%" style="stop-color:#FFD6E0;stop-opacity:0.8"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <circle cx="300" cy="155" r="160" fill="#FFF0F5" opacity="0.06"/>
+  <circle cx="150" cy="300" r="100" fill="#FFF0F5" opacity="0.04"/>
+  <rect x="15" y="15" width="570" height="370" rx="8" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.6"/>
+  <rect x="22" y="22" width="556" height="356" rx="5" fill="none" stroke="url(#accent)" stroke-width="0.5" opacity="0.4"/>
+  <path d="M30,45 L30,30 L45,30" fill="none" stroke="#FFF0F5" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M570,45 L570,30 L555,30" fill="none" stroke="#FFF0F5" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M30,355 L30,370 L45,370" fill="none" stroke="#FFF0F5" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M570,355 L570,370 L555,370" fill="none" stroke="#FFF0F5" stroke-width="2.5" stroke-linecap="round"/>
+  <g transform="translate(300, 150)">
+    <ellipse cx="0" cy="62" rx="75" ry="10" fill="#FFF0F5" opacity="0.3"/>
+    <rect x="-55" y="25" width="110" height="35" rx="4" fill="url(#cake)" opacity="0.85"/>
+    <path d="M-55,25 Q-55,18 0,15 Q55,18 55,25" fill="#FFF0F5" opacity="0.35"/>
+    <rect x="-38" y="-5" width="76" height="30" rx="3" fill="url(#cake)" opacity="0.85"/>
+    <path d="M-38,-5 Q-38,-12 0,-14 Q38,-12 38,-5" fill="#FFF0F5" opacity="0.35"/>
+    <rect x="-22" y="-30" width="44" height="25" rx="3" fill="url(#cake)" opacity="0.85"/>
+    <path d="M-22,-30 Q-22,-36 0,-38 Q22,-36 22,-30" fill="#FFF0F5" opacity="0.35"/>
+    <circle cx="-30" cy="40" r="2" fill="#C25A78" opacity="0.3"/>
+    <circle cx="-15" cy="40" r="2" fill="#C25A78" opacity="0.3"/>
+    <circle cx="0" cy="40" r="2" fill="#C25A78" opacity="0.3"/>
+    <circle cx="15" cy="40" r="2" fill="#C25A78" opacity="0.3"/>
+    <circle cx="30" cy="40" r="2" fill="#C25A78" opacity="0.3"/>
+    <circle cx="0" cy="-42" r="7" fill="#FF6B8A" opacity="0.8"/>
+    <path d="M0,-49 Q5,-58 3,-62" fill="none" stroke="#5B7A3A" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+    <ellipse cx="6" cy="-60" rx="5" ry="3" fill="#6B8E3A" opacity="0.5" transform="rotate(-20, 6, -60)"/>
+  </g>
+  <line x1="150" y1="248" x2="450" y2="248" stroke="#FFF0F5" stroke-width="1" opacity="0.5"/>
+  <circle cx="300" cy="248" r="3" fill="#FFF0F5" opacity="0.7"/>
+  <circle cx="150" cy="248" r="2" fill="#FFF0F5" opacity="0.5"/>
+  <circle cx="450" cy="248" r="2" fill="#FFF0F5" opacity="0.5"/>
+  <text x="300" y="292" text-anchor="middle" font-family="Georgia,serif" font-size="40" font-weight="bold" fill="#FFF0F5" letter-spacing="2">DESSERTS</text>
+  <text x="300" y="325" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#FFD6E0" letter-spacing="6" font-style="italic" opacity="0.85">&amp; SWEETS</text>
+  <line x1="230" y1="348" x2="270" y2="348" stroke="#FFF0F5" stroke-width="0.8" opacity="0.5"/>
+  <line x1="330" y1="348" x2="370" y2="348" stroke="#FFF0F5" stroke-width="0.8" opacity="0.5"/>
+</svg>

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50"/>
+      <stop offset="50%" style="stop-color:#388E3C"/>
+      <stop offset="100%" style="stop-color:#2E7D32"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8F5E9"/>
+      <stop offset="100%" style="stop-color:#C8E6C9"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8F5E9;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#C8E6C9;stop-opacity:0.7"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <circle cx="350" cy="140" r="170" fill="#E8F5E9" opacity="0.06"/>
+  <circle cx="150" cy="300" r="120" fill="#E8F5E9" opacity="0.04"/>
+  <rect x="15" y="15" width="570" height="370" rx="8" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.6"/>
+  <rect x="22" y="22" width="556" height="356" rx="5" fill="none" stroke="url(#accent)" stroke-width="0.5" opacity="0.4"/>
+  <path d="M30,45 L30,30 L45,30" fill="none" stroke="#E8F5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M570,45 L570,30 L555,30" fill="none" stroke="#E8F5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M30,355 L30,370 L45,370" fill="none" stroke="#E8F5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M570,355 L570,370 L555,370" fill="none" stroke="#E8F5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <g transform="translate(300, 145)">
+    <!-- Large central leaf -->
+    <path d="M0,40 Q-40,10 -35,-30 Q-30,-55 0,-65 Q30,-55 35,-30 Q40,10 0,40 Z" fill="url(#leaf)" opacity="0.8"/>
+    <line x1="0" y1="40" x2="0" y2="-55" stroke="#388E3C" stroke-width="1.5" opacity="0.3"/>
+    <path d="M0,-10 Q-15,-20 -25,-15" fill="none" stroke="#388E3C" stroke-width="1" opacity="0.25"/>
+    <path d="M0,-25 Q15,-35 25,-30" fill="none" stroke="#388E3C" stroke-width="1" opacity="0.25"/>
+    <path d="M0,5 Q-12,0 -20,5" fill="none" stroke="#388E3C" stroke-width="1" opacity="0.2"/>
+    <path d="M0,20 Q12,15 18,20" fill="none" stroke="#388E3C" stroke-width="1" opacity="0.2"/>
+    <!-- Left leaf -->
+    <g transform="translate(-50, 5) rotate(25)">
+      <path d="M0,25 Q-25,5 -22,-18 Q-18,-35 0,-42 Q18,-35 22,-18 Q25,5 0,25 Z" fill="url(#leaf)" opacity="0.6" />
+      <line x1="0" y1="25" x2="0" y2="-35" stroke="#2E7D32" stroke-width="1" opacity="0.2"/>
+    </g>
+    <!-- Right leaf -->
+    <g transform="translate(50, 0) rotate(-20)">
+      <path d="M0,25 Q-25,5 -22,-18 Q-18,-35 0,-42 Q18,-35 22,-18 Q25,5 0,25 Z" fill="url(#leaf)" opacity="0.6"/>
+      <line x1="0" y1="25" x2="0" y2="-35" stroke="#2E7D32" stroke-width="1" opacity="0.2"/>
+    </g>
+    <!-- Small accent leaves -->
+    <g transform="translate(-30, -45) rotate(40)">
+      <path d="M0,12 Q-10,2 -8,-8 Q-5,-15 0,-18 Q5,-15 8,-8 Q10,2 0,12 Z" fill="#A5D6A7" opacity="0.5"/>
+    </g>
+    <g transform="translate(35, -50) rotate(-35)">
+      <path d="M0,12 Q-10,2 -8,-8 Q-5,-15 0,-18 Q5,-15 8,-8 Q10,2 0,12 Z" fill="#A5D6A7" opacity="0.5"/>
+    </g>
+    <!-- Tomato slices -->
+    <circle cx="-40" cy="30" r="8" fill="#EF5350" opacity="0.5"/>
+    <circle cx="-40" cy="30" r="5" fill="#EF5350" opacity="0.3"/>
+    <circle cx="45" cy="25" r="6" fill="#EF5350" opacity="0.4"/>
+  </g>
+  <line x1="170" y1="248" x2="430" y2="248" stroke="#E8F5E9" stroke-width="1" opacity="0.5"/>
+  <circle cx="300" cy="248" r="3" fill="#E8F5E9" opacity="0.7"/>
+  <circle cx="170" cy="248" r="2" fill="#E8F5E9" opacity="0.5"/>
+  <circle cx="430" cy="248" r="2" fill="#E8F5E9" opacity="0.5"/>
+  <text x="300" y="293" text-anchor="middle" font-family="Georgia,serif" font-size="42" font-weight="bold" fill="#E8F5E9" letter-spacing="3">SALADS</text>
+  <text x="300" y="325" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#C8E6C9" letter-spacing="6" font-style="italic" opacity="0.85">FRESH &amp; CRISP</text>
+  <line x1="230" y1="348" x2="270" y2="348" stroke="#E8F5E9" stroke-width="0.8" opacity="0.5"/>
+  <line x1="330" y1="348" x2="370" y2="348" stroke="#E8F5E9" stroke-width="0.8" opacity="0.5"/>
+</svg>

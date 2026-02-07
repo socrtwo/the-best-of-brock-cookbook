@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Shopping List</title>
+  <link href="../Styles/tools-modern.css" rel="stylesheet" type="text/css"/>
+  <script src="../Misc/Shopping.js" type="text/javascript"> </script>
+</head>
+
+<body class="tool-page">
+
+  <div class="tool-header">
+    <h1>Shopping List</h1>
+    <p class="subtitle">Combine recipes and plan your grocery trip</p>
+  </div>
+
+  <div class="tool-card">
+    <h2>Build Your List</h2>
+    <div class="shopping-columns">
+      <div>
+        <h3>Recipe Ingredients (paste here)</h3>
+        <textarea class="tool-textarea" id="area" rows="14" placeholder="Paste ingredients from one or more recipes, one per line.&#10;&#10;Example:&#10;2 cups flour&#10;1 cup sugar&#10;3 eggs&#10;1 cup milk&#10;1/2 tsp vanilla"></textarea>
+      </div>
+      <div>
+        <h3>Already Have (exclude these)</h3>
+        <textarea class="tool-textarea" id="area_1" rows="14" placeholder="Paste items you already have. These will be removed from the final list.&#10;&#10;Example:&#10;3 eggs&#10;1 cup milk"></textarea>
+      </div>
+    </div>
+
+    <div class="tool-btn-group" style="justify-content:center;">
+      <button class="tool-btn tool-btn-primary tool-btn-lg" onclick="createList()" type="button">Create Shopping List</button>
+      <button class="tool-btn tool-btn-outline" onclick="clearShoppingList()" type="button">Clear All</button>
+    </div>
+  </div>
+
+  <div class="tool-card" id="resultCard" style="display:none;">
+    <h2>Your Shopping List</h2>
+    <div id="shoppingCount" class="tool-msg tool-msg-info mb-12" style="display:none;"></div>
+    <div class="shopping-result" id="results"></div>
+    <div class="tool-btn-group mt-12" style="justify-content:center;">
+      <button class="tool-btn tool-btn-success" onclick="copyList()" type="button">Copy to Clipboard</button>
+    </div>
+  </div>
+
+</body>
+</html>

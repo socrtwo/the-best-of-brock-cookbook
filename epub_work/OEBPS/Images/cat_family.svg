@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6D4C41"/>
+      <stop offset="50%" style="stop-color:#5D4037"/>
+      <stop offset="100%" style="stop-color:#4E342E"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#EFEBE9"/>
+      <stop offset="100%" style="stop-color:#D7CCC8"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#EFEBE9;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#D7CCC8;stop-opacity:0.6"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <circle cx="300" cy="200" r="200" fill="#EFEBE9" opacity="0.04"/>
+  <rect x="15" y="15" width="570" height="370" rx="8" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.6"/>
+  <rect x="22" y="22" width="556" height="356" rx="5" fill="none" stroke="url(#accent)" stroke-width="0.5" opacity="0.4"/>
+  <!-- Ornate corner brackets -->
+  <path d="M30,55 L30,30 L55,30" fill="none" stroke="#D7CCC8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M30,42 C35,35 35,35 42,30" fill="none" stroke="#D7CCC8" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+  <path d="M570,55 L570,30 L545,30" fill="none" stroke="#D7CCC8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M570,42 C565,35 565,35 558,30" fill="none" stroke="#D7CCC8" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+  <path d="M30,345 L30,370 L55,370" fill="none" stroke="#D7CCC8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M30,358 C35,365 35,365 42,370" fill="none" stroke="#D7CCC8" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+  <path d="M570,345 L570,370 L545,370" fill="none" stroke="#D7CCC8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M570,358 C565,365 565,365 558,370" fill="none" stroke="#D7CCC8" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+  <!-- Vintage frame design -->
+  <g transform="translate(300, 140)">
+    <!-- Outer decorative frame -->
+    <rect x="-70" y="-60" width="140" height="120" rx="6" fill="none" stroke="url(#frame)" stroke-width="2.5" opacity="0.7"/>
+    <rect x="-62" y="-52" width="124" height="104" rx="3" fill="none" stroke="url(#frame)" stroke-width="0.8" opacity="0.4"/>
+    <!-- Heart in center -->
+    <path d="M0,-15 C-5,-30 -25,-30 -25,-15 C-25,0 0,20 0,20 C0,20 25,0 25,-15 C25,-30 5,-30 0,-15 Z" fill="url(#frame)" opacity="0.5"/>
+    <!-- Small decorative scrollwork top -->
+    <path d="M-40,-60 Q-40,-72 -30,-72 Q-20,-72 -20,-60" fill="none" stroke="#D7CCC8" stroke-width="1.2" opacity="0.4"/>
+    <path d="M20,-60 Q20,-72 30,-72 Q40,-72 40,-60" fill="none" stroke="#D7CCC8" stroke-width="1.2" opacity="0.4"/>
+    <circle cx="0" cy="-66" r="3" fill="#D7CCC8" opacity="0.3"/>
+    <!-- Bottom scrollwork -->
+    <path d="M-40,60 Q-40,72 -30,72 Q-20,72 -20,60" fill="none" stroke="#D7CCC8" stroke-width="1.2" opacity="0.4"/>
+    <path d="M20,60 Q20,72 30,72 Q40,72 40,60" fill="none" stroke="#D7CCC8" stroke-width="1.2" opacity="0.4"/>
+    <circle cx="0" cy="66" r="3" fill="#D7CCC8" opacity="0.3"/>
+  </g>
+  <!-- Decorative divider -->
+  <line x1="130" y1="255" x2="470" y2="255" stroke="#D7CCC8" stroke-width="1" opacity="0.4"/>
+  <circle cx="300" cy="255" r="3" fill="#D7CCC8" opacity="0.6"/>
+  <circle cx="130" cy="255" r="2" fill="#D7CCC8" opacity="0.4"/>
+  <circle cx="470" cy="255" r="2" fill="#D7CCC8" opacity="0.4"/>
+  <!-- Scrollwork on divider -->
+  <path d="M270,255 Q275,248 280,255" fill="none" stroke="#D7CCC8" stroke-width="0.8" opacity="0.4"/>
+  <path d="M320,255 Q325,248 330,255" fill="none" stroke="#D7CCC8" stroke-width="0.8" opacity="0.4"/>
+  <text x="300" y="298" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-weight="bold" fill="#EFEBE9" letter-spacing="2">FAMILY</text>
+  <text x="300" y="332" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#D7CCC8" letter-spacing="6" font-style="italic" opacity="0.85">HEIRLOOMS</text>
+  <line x1="220" y1="352" x2="260" y2="352" stroke="#D7CCC8" stroke-width="0.8" opacity="0.5"/>
+  <line x1="340" y1="352" x2="380" y2="352" stroke="#D7CCC8" stroke-width="0.8" opacity="0.5"/>
+</svg>
