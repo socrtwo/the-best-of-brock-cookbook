@@ -15,6 +15,9 @@ jobs:
   # ───────── Windows build + Azure Trusted Signing (OIDC) ─────────
   build-windows:
     runs-on: windows-latest
+    # Federated credential is scoped to this environment.
+    # Create it in Settings → Environments → New environment → "release".
+    environment: release
     defaults:
       run:
         working-directory: desktop
