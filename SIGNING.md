@@ -26,7 +26,7 @@ macOS `.dmg` and Android `.apk` in the current Release are **unsigned**.
    - Adds two federated credentials for this repo:
      - `environment:release` — used by the Windows signing job.
      - `ref:refs/heads/main` — used by the OIDC smoke-test workflow.
-   - Grants the App the **Trusted Signing Certificate Profile Signer** role,
+   - Grants the App the **Artifact Signing Certificate Profile Signer** role,
      scoped to the specific certificate profile (not the whole account).
 
 3. The script prints six values at the end. Paste them into the GitHub repo

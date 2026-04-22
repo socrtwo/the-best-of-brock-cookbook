@@ -11,7 +11,7 @@
 #   3. Adds federated credentials so the GitHub repo can obtain tokens:
 #        - release: signing job running in the "release" environment
 #        - main:    smoke-test job on the main branch (for verify-oidc.yml)
-#   4. Assigns "Trusted Signing Certificate Profile Signer" on the cert
+#   4. Assigns "Artifact Signing Certificate Profile Signer" on the cert
 #      profile scope (least-privilege — cannot sign with any other profile).
 #   5. Prints the GitHub repo Variables to set.
 #
@@ -94,18 +94,18 @@ add_federated_cred \
   "repo:$GITHUB_OWNER/$GITHUB_REPO:ref:refs/heads/main"
 
 # 4. Role assignment --------------------------------------------------------
-say "Granting 'Trusted Signing Certificate Profile Signer' on the cert profile"
+say "Granting 'Artifact Signing Certificate Profile Signer' on the cert profile"
 SCOPE="/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.CodeSigning/codeSigningAccounts/$SIGNING_ACCOUNT/certificateProfiles/$CERT_PROFILE"
 
 # Wait briefly for the SP to propagate to Azure AD
 for _ in 1 2 3 4 5; do
   if az role assignment list --assignee "$APP_ID" --scope "$SCOPE" \
-       --query "[?roleDefinitionName=='Trusted Signing Certificate Profile Signer'] | length(@)" -o tsv \
+       --query "[?roleDefinitionName=='Artifact Signing Certificate Profile Signer'] | length(@)" -o tsv \
      | grep -q '^0$'; then
     az role assignment create \
       --assignee-object-id "$SP_ID" \
       --assignee-principal-type ServicePrincipal \
-      --role "Trusted Signing Certificate Profile Signer" \
+      --role "Artifact Signing Certificate Profile Signer" \
       --scope "$SCOPE" >/dev/null && break
   else
     say "Role already assigned"
