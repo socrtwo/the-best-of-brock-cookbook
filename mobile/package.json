@@ -1,0 +1,25 @@
+{
+  "name": "best-of-brock-mobile",
+  "version": "1.0.0",
+  "description": "The Best of Brock cookbook — iOS + Android wrapper via Capacitor.",
+  "private": true,
+  "scripts": {
+    "prepare-web": "node ./scripts/prepare-web.js",
+    "sync": "npm run prepare-web && npx cap sync",
+    "android:init": "npx cap add android",
+    "android:open": "npx cap open android",
+    "android:run": "npx cap run android",
+    "android:build-debug": "cd android && ./gradlew assembleDebug",
+    "ios:init": "npx cap add ios",
+    "ios:open": "npx cap open ios",
+    "ios:run": "npx cap run ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/ios": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}

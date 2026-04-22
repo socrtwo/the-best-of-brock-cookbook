@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#c0392b"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Best of Brock"/>
+  <meta name="description" content="The Best of Brock — classic recipes from Brock &amp; Company, modernized for home cooks."/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="./assets/icons/icon-512.png"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
+  <title>The Best of Brock — Cookbook</title>
+  <style>
+    :root {
+      --primary: #c0392b;
+      --primary-dark: #96281b;
+      --accent: #e67e22;
+      --cream: #fdf6ee;
+      --warm: #faf3eb;
+      --card: #ffffff;
+      --text: #2c3e50;
+      --muted: #5d6d7e;
+      --light: #95a5a6;
+      --border: #e8ddd0;
+      --shadow: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.55;
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+    }
+    header.hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      padding: calc(24px + env(safe-area-inset-top)) 20px 36px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: Gabriola, 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.2em, 6vw, 3.6em);
+      font-weight: normal;
+      margin: 0 0 4px;
+      letter-spacing: 0.5px;
+    }
+    .hero p {
+      margin: 0 0 16px;
+      opacity: 0.94;
+      font-size: 0.98em;
+    }
+    .hero-meta {
+      font-size: 0.8em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.78;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: -20px;
+      padding: 14px 18px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: max(8px, env(safe-area-inset-top));
+      z-index: 10;
+    }
+    .search {
+      flex: 1 1 260px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--warm);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+    .search input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font: inherit;
+      color: var(--text);
+      font-size: 1em;
+      min-width: 0;
+    }
+    .search svg { width: 16px; height: 16px; color: var(--muted); }
+    .tool-links { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tool-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.88em;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--warm);
+      white-space: nowrap;
+    }
+    .tool-links a:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 16px 0 8px;
+    }
+    .chip {
+      padding: 6px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.88em;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .chip:hover { border-color: var(--primary); }
+    .chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .chip-count {
+      font-size: 0.78em;
+      color: var(--muted);
+      margin-left: 4px;
+    }
+    .chip.active .chip-count { color: rgba(255,255,255,0.8); }
+
+    .results-info {
+      padding: 6px 0 12px;
+      color: var(--muted);
+      font-size: 0.88em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+      padding: 8px 0 40px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 120px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      box-shadow: var(--shadow);
+    }
+    .card:hover, .card:focus {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+      outline: none;
+    }
+    .card-cat {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    .card-title {
+      font-family: Gabriola, 'Playfair Display', Georgia, serif;
+      font-size: 1.4em;
+      line-height: 1.2;
+      color: var(--text);
+      margin: 0 0 10px;
+      flex: 1;
+    }
+    .card-meta {
+      font-size: 0.78em;
+      color: var(--muted);
+      margin-top: auto;
+    }
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    footer {
+      text-align: center;
+      padding: 24px 16px max(24px, env(safe-area-inset-bottom));
+      color: var(--muted);
+      font-size: 0.82em;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+    footer a { color: var(--primary); }
+
+    /* Install banner */
+    .install-banner {
+      display: none;
+      position: fixed;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      left: 16px;
+      right: 16px;
+      max-width: 420px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow-lg);
+      z-index: 50;
+      align-items: center;
+      gap: 10px;
+    }
+    .install-banner.show { display: flex; }
+    .install-banner p { margin: 0; flex: 1; font-size: 0.88em; }
+    .install-banner button {
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: bold;
+      background: var(--primary);
+      color: #fff;
+    }
+    .install-banner button.secondary {
+      background: transparent;
+      color: var(--muted);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cream: #1a1410;
+        --warm: #241a15;
+        --card: #2a1f1a;
+        --text: #f4e8d8;
+        --muted: #a89784;
+        --border: #3d2e24;
+        --shadow: 0 2px 8px rgba(0,0,0,0.3);
+        --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-meta">The Best of Brock</div>
+  <h1>A Cookbook Collection</h1>
+  <p>212 tested recipes from Brock &amp; Company chefs, associates &amp; friends &mdash; scaled for home kitchens.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="toolbar" role="toolbar" aria-label="Cookbook tools">
+    <label class="search" role="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="search" placeholder="Search 211 recipes&hellip;" aria-label="Search recipes" autocomplete="off"/>
+    </label>
+    <nav class="tool-links" aria-label="Kitchen tools">
+      <a href="./epub_work/OEBPS/Text/Multiplier.xhtml">Scaler</a>
+      <a href="./epub_work/OEBPS/Text/Timer.xhtml">Timer</a>
+      <a href="./epub_work/OEBPS/Text/ShoppingList.xhtml">Shopping</a>
+      <a href="./epub_work/OEBPS/Text/Converter.xhtml">Convert</a>
+    </nav>
+  </div>
+
+  <div class="filters" id="filters" role="tablist" aria-label="Filter by category"></div>
+
+  <p class="results-info" id="info"></p>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="empty" id="empty" style="display:none">No recipes match your search.</p>
+</div>
+
+<div class="install-banner" id="install-banner" role="region" aria-live="polite">
+  <p><strong>Install the cookbook</strong><br/><span style="font-size:0.9em;color:var(--muted)">Works offline, no app store needed.</span></p>
+  <button id="install-btn" type="button">Install</button>
+  <button class="secondary" id="install-dismiss" type="button" aria-label="Dismiss">&times;</button>
+</div>
+
+<footer>
+  The Best of Brock &middot; <a href="./TheBestofBrock.epub">Download EPUB</a> &middot;
+  <a href="https://github.com/socrtwo/the-best-of-brock-cookbook">Source on GitHub</a>
+</footer>
+
+<script>
+(async function () {
+  'use strict';
+  const grid = document.getElementById('grid');
+  const info = document.getElementById('info');
+  const empty = document.getElementById('empty');
+  const filters = document.getElementById('filters');
+  const q = document.getElementById('q');
+
+  let recipes = [];
+  try {
+    const res = await fetch('./assets/recipes.json', { cache: 'force-cache' });
+    recipes = await res.json();
+  } catch (e) {
+    grid.innerHTML = '<p class="empty">Could not load recipe index.</p>';
+    return;
+  }
+
+  const categories = [['All', recipes.length]];
+  const catCounts = {};
+  recipes.forEach(r => { catCounts[r.category] = (catCounts[r.category] || 0) + 1; });
+  Object.keys(catCounts).sort().forEach(c => categories.push([c, catCounts[c]]));
+
+  let activeCat = 'All';
+  let query = '';
+
+  // Render category chips
+  filters.innerHTML = categories.map(([c, n], i) =>
+    `<button class="chip${i===0?' active':''}" data-cat="${escapeAttr(c)}">${escapeHtml(c)}<span class="chip-count">${n}</span></button>`
+  ).join('');
+  filters.addEventListener('click', (e) => {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    activeCat = btn.dataset.cat;
+    [...filters.children].forEach(b => b.classList.toggle('active', b === btn));
+    render();
+  });
+
+  q.addEventListener('input', () => { query = q.value.trim().toLowerCase(); render(); });
+
+  function render() {
+    const filtered = recipes.filter(r => {
+      const catOk = activeCat === 'All' || r.category === activeCat;
+      const qOk = !query || r.title.toLowerCase().includes(query) ||
+                  (r.category && r.category.toLowerCase().includes(query));
+      return catOk && qOk;
+    });
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      info.textContent = '';
+      return;
+    }
+    empty.style.display = 'none';
+    info.textContent = filtered.length === recipes.length
+      ? `${recipes.length} recipes`
+      : `${filtered.length} of ${recipes.length} recipes`;
+    grid.innerHTML = filtered.map(r => {
+      const y = r.yield ? `Serves ${escapeHtml(r.yield)}` : '';
+      return `<a class="card" href="./epub_work/OEBPS/${escapeAttr(r.href)}">
+        <span class="card-cat">${escapeHtml(r.category)}</span>
+        <h2 class="card-title">${escapeHtml(r.title)}</h2>
+        <span class="card-meta">${y}</span>
+      </a>`;
+    }).join('');
+  }
+
+  function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function escapeAttr(s){return escapeHtml(s);}
+
+  render();
+
+  // Service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    });
+  }
+
+  // Install banner (Android / Desktop Chrome / Edge)
+  const banner = document.getElementById('install-banner');
+  const installBtn = document.getElementById('install-btn');
+  const dismissBtn = document.getElementById('install-dismiss');
+  let deferred = null;
+  const dismissed = localStorage.getItem('install-dismissed') === '1';
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferred = e;
+    if (!dismissed) banner.classList.add('show');
+  });
+  installBtn.addEventListener('click', async () => {
+    if (!deferred) return;
+    banner.classList.remove('show');
+    deferred.prompt();
+    await deferred.userChoice;
+    deferred = null;
+  });
+  dismissBtn.addEventListener('click', () => {
+    banner.classList.remove('show');
+    localStorage.setItem('install-dismissed', '1');
+  });
+}());
+</script>
+
+</body>
+</html>

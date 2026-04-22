@@ -1,0 +1,168 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write       # create release + upload artifacts
+  id-token: write       # required for Azure OIDC federated credential
+  packages: read
+
+jobs:
+  # ───────── Windows build + Azure Trusted Signing (OIDC) ─────────
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop
+    env:
+      # Fill these in as GitHub repo variables (Settings → Variables → Actions).
+      # AZURE_TENANT_ID  — your Azure AD tenant id
+      # AZURE_CLIENT_ID  — the App Registration that has the
+      #                    "Trusted Signing Certificate Profile Signer" role
+      #                    on your Trusted Signing Account
+      # AZURE_SUBSCRIPTION_ID — the subscription holding the signing account
+      # TS_ENDPOINT       — e.g. https://eus.codesigning.azure.net/
+      # TS_ACCOUNT_NAME   — your Trusted Signing Account name
+      # TS_CERT_PROFILE   — your Certificate Profile name
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: desktop/package.json
+
+      - name: Install desktop deps
+        run: npm install --no-audit --no-fund
+
+      - name: Build unsigned Windows installer
+        run: npm run build:win
+        env:
+          # Tell electron-builder NOT to self-sign — Trusted Signing does it after.
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: Azure login (OIDC, no stored secret)
+        if: vars.AZURE_TENANT_ID != ''
+        uses: azure/login@v2
+        with:
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Sign Windows binaries with Azure Trusted Signing
+        if: vars.AZURE_TENANT_ID != ''
+        uses: azure/trusted-signing-action@v0.5.1
+        with:
+          endpoint: ${{ vars.TS_ENDPOINT }}
+          trusted-signing-account-name: ${{ vars.TS_ACCOUNT_NAME }}
+          certificate-profile-name: ${{ vars.TS_CERT_PROFILE }}
+          files-folder: desktop/dist-desktop
+          files-folder-filter: exe,msi
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installers
+          path: desktop/dist-desktop/*.exe
+
+  # ───────── macOS build (unsigned) ─────────
+  build-macos:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: desktop/package.json
+
+      - name: Install desktop deps
+        run: npm install --no-audit --no-fund
+
+      - name: Build unsigned macOS DMG
+        run: npm run build:mac
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-installers
+          path: |
+            desktop/dist-desktop/*.dmg
+            desktop/dist-desktop/*.zip
+
+  # ───────── Android build (unsigned debug APK) ─────────
+  build-android:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: mobile/package.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install Capacitor deps
+        run: npm install --no-audit --no-fund
+
+      - name: Stage web assets
+        run: npm run prepare-web
+
+      - name: Add Android platform
+        run: npx cap add android
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Build debug APK
+        run: cd android && ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: mobile/android/app/build/outputs/apk/debug/*.apk
+
+  # ───────── Publish a GitHub Release with all artifacts ─────────
+  publish:
+    needs: [build-windows, build-macos, build-android]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/windows-installers/*
+            artifacts/macos-installers/*
+            artifacts/android-apk/*
+          generate_release_notes: true

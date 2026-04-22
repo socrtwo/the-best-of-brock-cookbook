@@ -1,0 +1,25 @@
+{
+  "name": "The Best of Brock — Cookbook",
+  "short_name": "Best of Brock",
+  "description": "212 tested recipes from Brock & Company chefs, associates, and friends — scaled for home kitchens with smart scaler, timer, shopping list, and unit converter.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fdf6ee",
+  "theme_color": "#c0392b",
+  "lang": "en",
+  "categories": ["food", "lifestyle", "books"],
+  "icons": [
+    { "src": "./assets/icons/icon-192.png",          "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icons/icon-512.png",          "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "./assets/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Scale a recipe", "url": "./epub_work/OEBPS/Text/Multiplier.xhtml", "description": "Open the smart recipe scaler" },
+    { "name": "Kitchen Timer",  "url": "./epub_work/OEBPS/Text/Timer.xhtml",      "description": "Multi-timer" },
+    { "name": "Shopping List",  "url": "./epub_work/OEBPS/Text/ShoppingList.xhtml", "description": "Combine recipes into one list" },
+    { "name": "Unit Converter", "url": "./epub_work/OEBPS/Text/Converter.xhtml",  "description": "Convert cooking units" }
+  ]
+}
