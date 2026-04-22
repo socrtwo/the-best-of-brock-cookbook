@@ -1,0 +1,69 @@
+{
+  "name": "best-of-brock-desktop",
+  "productName": "The Best of Brock",
+  "version": "1.0.0",
+  "description": "The Best of Brock cookbook — desktop build (Windows + macOS).",
+  "main": "main.js",
+  "private": true,
+  "author": "Claudie J. Brock",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:all": "electron-builder -mw"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.brock.cookbook",
+    "productName": "The Best of Brock",
+    "asar": true,
+    "directories": {
+      "output": "dist-desktop",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json",
+      "../index.html",
+      "../manifest.webmanifest",
+      "../sw.js",
+      "../assets/**/*",
+      "../epub_work/OEBPS/**/*",
+      "../TheBestofBrock.epub"
+    ],
+    "extraMetadata": {
+      "main": "main.js"
+    },
+    "win": {
+      "target": [
+        { "target": "nsis",     "arch": ["x64", "arm64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "build/icon.png",
+      "signAndEditExecutable": false
+    },
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] },
+        { "target": "zip", "arch": ["x64", "arm64"] }
+      ],
+      "category": "public.app-category.lifestyle",
+      "icon": "build/icon.png",
+      "identity": null,
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "publish": null
+  }
+}

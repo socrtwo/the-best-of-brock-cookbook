@@ -1,0 +1,17 @@
+{
+  "appId": "com.brock.cookbook",
+  "appName": "Best of Brock",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "backgroundColor": "#fdf6eeff",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#fdf6eeff"
+  },
+  "ios": {
+    "contentInset": "always"
+  }
+}

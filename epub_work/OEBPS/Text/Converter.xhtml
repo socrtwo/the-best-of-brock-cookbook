@@ -8,75 +8,124 @@
   <link href="../Styles/tools-modern.css" rel="stylesheet" type="text/css"/>
   <script type="text/javascript">
   //<![CDATA[
-  var conversions = {
-    'tsp':    { mL: 4.929, label: 'teaspoon' },
-    'tbsp':   { mL: 14.787, label: 'tablespoon' },
-    'fl oz':  { mL: 29.574, label: 'fluid ounce' },
-    'cup':    { mL: 236.588, label: 'cup' },
-    'pint':   { mL: 473.176, label: 'pint' },
-    'quart':  { mL: 946.353, label: 'quart' },
-    'gallon': { mL: 3785.41, label: 'gallon' },
-    'mL':     { mL: 1, label: 'milliliter' },
-    'L':      { mL: 1000, label: 'liter' }
+  var VOL = {
+    tsp:    { base: 4.929,   label: 'teaspoon' },
+    tbsp:   { base: 14.787,  label: 'tablespoon' },
+    'fl oz':{ base: 29.574,  label: 'fluid ounce' },
+    cup:    { base: 236.588, label: 'cup' },
+    pint:   { base: 473.176, label: 'pint' },
+    quart:  { base: 946.353, label: 'quart' },
+    gallon: { base: 3785.41, label: 'gallon' },
+    mL:     { base: 1,       label: 'milliliter' },
+    L:      { base: 1000,    label: 'liter' }
   };
-  var weightConversions = {
-    'oz': { g: 28.3495, label: 'ounce' },
-    'lb': { g: 453.592, label: 'pound' },
-    'g':  { g: 1, label: 'gram' },
-    'kg': { g: 1000, label: 'kilogram' }
+  var WGT = {
+    oz: { base: 28.3495, label: 'ounce' },
+    lb: { base: 453.592, label: 'pound' },
+    g:  { base: 1,       label: 'gram' },
+    kg: { base: 1000,    label: 'kilogram' }
   };
-  var tempConversions = { 'F': 'Fahrenheit', 'C': 'Celsius' };
-  var lengthConversions = {
-    'in': { mm: 25.4, label: 'inch' },
-    'cm': { mm: 10, label: 'centimeter' },
-    'mm': { mm: 1, label: 'millimeter' }
+  var LEN = {
+    'in': { base: 25.4, label: 'inch' },
+    cm:   { base: 10,   label: 'centimeter' },
+    mm:   { base: 1,    label: 'millimeter' }
   };
 
-  function convertVolume() {
-    var val = parseFloat(document.getElementById('volInput').value);
-    var from = document.getElementById('volFrom').value;
-    var to = document.getElementById('volTo').value;
-    var el = document.getElementById('volResult');
-    if (isNaN(val) || val < 0) { el.innerHTML = ''; return; }
-    var result = (val * conversions[from].mL) / conversions[to].mL;
-    el.innerHTML = '<strong>' + fmtN(val) + ' ' + pluralize(conversions[from].label, val) + '</strong> = <strong>' + fmtN(result) + ' ' + pluralize(conversions[to].label, result) + '</strong>';
-  }
-  function convertWeight() {
-    var val = parseFloat(document.getElementById('wgtInput').value);
-    var from = document.getElementById('wgtFrom').value;
-    var to = document.getElementById('wgtTo').value;
-    var el = document.getElementById('wgtResult');
-    if (isNaN(val) || val < 0) { el.innerHTML = ''; return; }
-    var result = (val * weightConversions[from].g) / weightConversions[to].g;
-    el.innerHTML = '<strong>' + fmtN(val) + ' ' + pluralize(weightConversions[from].label, val) + '</strong> = <strong>' + fmtN(result) + ' ' + pluralize(weightConversions[to].label, result) + '</strong>';
-  }
-  function convertTemp() {
-    var val = parseFloat(document.getElementById('tempInput').value);
-    var from = document.getElementById('tempFrom').value;
-    var el = document.getElementById('tempResult');
-    if (isNaN(val)) { el.innerHTML = ''; return; }
-    var result, to;
-    if (from === 'F') { result = (val - 32) * 5 / 9; to = 'C'; }
-    else { result = (val * 9 / 5) + 32; to = 'F'; }
-    el.innerHTML = '<strong>' + fmtN(val) + '\u00B0 ' + tempConversions[from] + '</strong> = <strong>' + fmtN(result) + '\u00B0 ' + tempConversions[to] + '</strong>';
-  }
-  function convertLength() {
-    var val = parseFloat(document.getElementById('lenInput').value);
-    var from = document.getElementById('lenFrom').value;
-    var to = document.getElementById('lenTo').value;
-    var el = document.getElementById('lenResult');
-    if (isNaN(val) || val < 0) { el.innerHTML = ''; return; }
-    var result = (val * lengthConversions[from].mm) / lengthConversions[to].mm;
-    el.innerHTML = '<strong>' + fmtN(val) + ' ' + pluralize(lengthConversions[from].label, val) + '</strong> = <strong>' + fmtN(result) + ' ' + pluralize(lengthConversions[to].label, result) + '</strong>';
-  }
-  function fmtN(n) {
+  function fmt(n) {
+    if (!isFinite(n)) return '';
     if (n === Math.floor(n)) return '' + n;
     if (Math.abs(n) < 0.01) return n.toFixed(3);
     return parseFloat(n.toFixed(3)).toString();
   }
-  function pluralize(word, n) {
+  function plural(word, n) {
     if (Math.abs(n - 1) < 0.001) return word;
-    return word + 's';
+    return word + (/s$/.test(word) ? 'es' : 's');
+  }
+  function doConvert(map, inId, fromId, toId, outId, unitWrap) {
+    var v = parseFloat(document.getElementById(inId).value);
+    var from = document.getElementById(fromId).value;
+    var to   = document.getElementById(toId).value;
+    var el = document.getElementById(outId);
+    if (isNaN(v)) { el.innerHTML = ''; return; }
+    var r = (v * map[from].base) / map[to].base;
+    el.innerHTML = '<strong>' + fmt(v) + ' ' + plural(map[from].label, v) + '</strong> = <strong>' +
+                   fmt(r) + ' ' + plural(map[to].label, r) + '</strong>' +
+                   (unitWrap ? ' <span class="conv-aside">(' + unitWrap(v, r, from, to) + ')</span>' : '');
+  }
+
+  function convertVolume() {
+    doConvert(VOL, 'volInput', 'volFrom', 'volTo', 'volResult', function (v, r, f, t) {
+      if (t === 'mL' && r > 999) return fmt(r/1000) + ' L';
+      if (t === 'cup' && r > 4)   return fmt(r/4) + ' quarts';
+      return '';
+    });
+  }
+  function convertWeight() {
+    doConvert(WGT, 'wgtInput', 'wgtFrom', 'wgtTo', 'wgtResult', function (v, r, f, t) {
+      if (t === 'g' && r > 999) return fmt(r/1000) + ' kg';
+      if (t === 'oz' && r > 15) return fmt(r/16) + ' lb';
+      return '';
+    });
+  }
+  function convertLength() {
+    doConvert(LEN, 'lenInput', 'lenFrom', 'lenTo', 'lenResult', null);
+  }
+  function convertTemp() {
+    var v = parseFloat(document.getElementById('tempInput').value);
+    var from = document.getElementById('tempFrom').value;
+    var el = document.getElementById('tempResult');
+    if (isNaN(v)) { el.innerHTML = ''; return; }
+    var r, to;
+    if (from === 'F') { r = (v - 32) * 5 / 9; to = 'C'; }
+    else              { r = (v * 9 / 5) + 32; to = 'F'; }
+    el.innerHTML = '<strong>' + fmt(v) + '\u00B0F' + (from === 'C' ? ' wait' : '') +
+                   '</strong>'.replace('F wait', 'C');
+    // Clean build of the string (avoid the hack above):
+    el.innerHTML = '<strong>' + fmt(v) + '\u00B0' + from + '</strong> = ' +
+                   '<strong>' + fmt(r) + '\u00B0' + to + '</strong>';
+  }
+
+  // Ingredient weight lookup
+  var INGREDIENTS = [
+    { name: 'All-purpose flour',  cup: 120 },
+    { name: 'Bread flour',        cup: 130 },
+    { name: 'Cake flour',         cup: 115 },
+    { name: 'Whole wheat flour',  cup: 120 },
+    { name: 'Granulated sugar',   cup: 200 },
+    { name: 'Brown sugar (packed)', cup: 213 },
+    { name: 'Confectioner\u2019s sugar', cup: 113 },
+    { name: 'Butter',             cup: 227 },
+    { name: 'Honey',              cup: 340 },
+    { name: 'Milk',               cup: 240 },
+    { name: 'Cream',              cup: 238 },
+    { name: 'Olive oil',          cup: 216 },
+    { name: 'Water',              cup: 237 },
+    { name: 'Rice (uncooked)',    cup: 190 },
+    { name: 'Oats (rolled)',      cup: 90  },
+    { name: 'Cornmeal',           cup: 140 },
+    { name: 'Cornstarch',         cup: 128 },
+    { name: 'Cocoa powder',       cup: 85  },
+    { name: 'Parmesan (grated)',  cup: 90  },
+    { name: 'Cheddar (shredded)', cup: 113 },
+    { name: 'Bread crumbs (dry)', cup: 108 },
+    { name: 'Chopped nuts',       cup: 115 },
+    { name: 'Chocolate chips',    cup: 170 }
+  ];
+
+  function lookupIngredient() {
+    var q = document.getElementById('ingQuery').value.toLowerCase().trim();
+    var amt = parseFloat(document.getElementById('ingAmt').value) || 1;
+    var el = document.getElementById('ingResult');
+    if (!q) { el.innerHTML = ''; return; }
+    var hits = INGREDIENTS.filter(function (x) { return x.name.toLowerCase().indexOf(q) >= 0; });
+    if (!hits.length) { el.innerHTML = '<em>No match. Try &ldquo;flour&rdquo;, &ldquo;sugar&rdquo;, &ldquo;butter&rdquo;&hellip;</em>'; return; }
+    var h = '<table class="conv-table"><tr><th>Ingredient</th><th>' + fmt(amt) + ' cup</th><th>oz</th></tr>';
+    hits.forEach(function (x) {
+      var g = x.cup * amt;
+      h += '<tr><td>' + x.name + '</td><td>' + Math.round(g) + ' g</td><td>' + (g/28.3495).toFixed(2) + ' oz</td></tr>';
+    });
+    h += '</table>';
+    el.innerHTML = h;
   }
   //]]>
   </script>
@@ -86,14 +135,14 @@
 
   <div class="tool-header">
     <h1>Unit Converter</h1>
-    <p class="subtitle">Convert between US customary and metric measures</p>
+    <p class="subtitle">US customary, metric, and ingredient weights &#8212; all live</p>
   </div>
 
   <div class="tool-card">
     <h2>Volume</h2>
     <div class="converter-row">
       <input class="tool-input" id="volInput" type="number" min="0" step="any" placeholder="Amount" onkeyup="convertVolume()" onchange="convertVolume()"/>
-      <select class="converter-select" id="volFrom" onchange="convertVolume()" style="width:auto;">
+      <select class="converter-select" id="volFrom" onchange="convertVolume()">
         <option value="tsp">tsp</option>
         <option value="tbsp">tbsp</option>
         <option value="fl oz">fl oz</option>
@@ -105,7 +154,7 @@
         <option value="L">liter</option>
       </select>
       <span class="converter-arrow">&#8594;</span>
-      <select class="converter-select" id="volTo" onchange="convertVolume()" style="width:auto;">
+      <select class="converter-select" id="volTo" onchange="convertVolume()">
         <option value="tsp">tsp</option>
         <option value="tbsp">tbsp</option>
         <option value="fl oz">fl oz</option>
@@ -130,14 +179,14 @@
     <h2>Weight</h2>
     <div class="converter-row">
       <input class="tool-input" id="wgtInput" type="number" min="0" step="any" placeholder="Amount" onkeyup="convertWeight()" onchange="convertWeight()"/>
-      <select class="converter-select" id="wgtFrom" onchange="convertWeight()" style="width:auto;">
+      <select class="converter-select" id="wgtFrom" onchange="convertWeight()">
         <option value="oz" selected="selected">oz</option>
         <option value="lb">lb</option>
         <option value="g">gram</option>
         <option value="kg">kg</option>
       </select>
       <span class="converter-arrow">&#8594;</span>
-      <select class="converter-select" id="wgtTo" onchange="convertWeight()" style="width:auto;">
+      <select class="converter-select" id="wgtTo" onchange="convertWeight()">
         <option value="oz">oz</option>
         <option value="lb">lb</option>
         <option value="g" selected="selected">gram</option>
@@ -156,9 +205,9 @@
     <h2>Temperature</h2>
     <div class="converter-row">
       <input class="tool-input" id="tempInput" type="number" step="any" placeholder="Degrees" onkeyup="convertTemp()" onchange="convertTemp()"/>
-      <select class="converter-select" id="tempFrom" onchange="convertTemp()" style="width:auto;">
-        <option value="F" selected="selected">&#176;F (Fahrenheit)</option>
-        <option value="C">&#176;C (Celsius)</option>
+      <select class="converter-select" id="tempFrom" onchange="convertTemp()">
+        <option value="F" selected="selected">&#176;F</option>
+        <option value="C">&#176;C</option>
       </select>
     </div>
     <div id="tempResult" class="tool-msg tool-msg-info" style="min-height:20px;"></div>
@@ -176,13 +225,13 @@
     <h2>Length</h2>
     <div class="converter-row">
       <input class="tool-input" id="lenInput" type="number" min="0" step="any" placeholder="Amount" onkeyup="convertLength()" onchange="convertLength()"/>
-      <select class="converter-select" id="lenFrom" onchange="convertLength()" style="width:auto;">
+      <select class="converter-select" id="lenFrom" onchange="convertLength()">
         <option value="in" selected="selected">inch</option>
         <option value="cm">cm</option>
         <option value="mm">mm</option>
       </select>
       <span class="converter-arrow">&#8594;</span>
-      <select class="converter-select" id="lenTo" onchange="convertLength()" style="width:auto;">
+      <select class="converter-select" id="lenTo" onchange="convertLength()">
         <option value="in">inch</option>
         <option value="cm" selected="selected">cm</option>
         <option value="mm">mm</option>
@@ -192,22 +241,14 @@
   </div>
 
   <div class="tool-card">
-    <h2>Ingredient Weight Reference</h2>
-    <p style="font-size:0.85em; color:#5d6d7e; margin-bottom:12px;">Common baking ingredient weights when measured by volume.</p>
-    <table class="conv-table">
-      <tr><th>Ingredient</th><th>1 cup</th><th>&#189; cup</th><th>&#188; cup</th></tr>
-      <tr><td>All-purpose flour</td><td>120 g</td><td>60 g</td><td>30 g</td></tr>
-      <tr><td>Granulated sugar</td><td>200 g</td><td>100 g</td><td>50 g</td></tr>
-      <tr><td>Brown sugar (packed)</td><td>180 g</td><td>90 g</td><td>45 g</td></tr>
-      <tr><td>Confectioner's sugar</td><td>100 g</td><td>50 g</td><td>25 g</td></tr>
-      <tr><td>Butter</td><td>240 g</td><td>120 g</td><td>60 g</td></tr>
-      <tr><td>Rice (uncooked)</td><td>190 g</td><td>95 g</td><td>48 g</td></tr>
-      <tr><td>Oats (quick)</td><td>90 g</td><td>45 g</td><td>22 g</td></tr>
-      <tr><td>Corn starch</td><td>120 g</td><td>60 g</td><td>30 g</td></tr>
-      <tr><td>Parmesan (grated)</td><td>90 g</td><td>45 g</td><td>22 g</td></tr>
-      <tr><td>Bread crumbs (dry)</td><td>150 g</td><td>75 g</td><td>40 g</td></tr>
-      <tr><td>Chopped nuts</td><td>150 g</td><td>75 g</td><td>40 g</td></tr>
-    </table>
+    <h2>Ingredient Weight Lookup</h2>
+    <p style="font-size:0.85em; color:#5d6d7e; margin-bottom:12px;">Type an ingredient and a cup amount to see its weight in grams and ounces.</p>
+    <div class="converter-row">
+      <input class="tool-input" id="ingQuery" type="text" placeholder="flour, sugar, butter..." onkeyup="lookupIngredient()"/>
+      <input class="tool-input tool-input-sm" id="ingAmt" type="number" min="0" step="any" value="1" onkeyup="lookupIngredient()" onchange="lookupIngredient()"/>
+      <span style="color:#5d6d7e;">cup(s)</span>
+    </div>
+    <div id="ingResult" style="margin-top:12px;"></div>
   </div>
 
 </body>

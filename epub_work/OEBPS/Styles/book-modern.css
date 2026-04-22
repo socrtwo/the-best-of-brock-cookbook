@@ -1,0 +1,223 @@
+/* ============================================
+   The Best of Brock — Modern Book Stylesheet
+   Applied on top of idGeneratedStyles.css for recipe pages.
+   ============================================ */
+
+:root {
+  --b-primary: #c0392b;
+  --b-primary-dark: #96281b;
+  --b-accent: #e67e22;
+  --b-cream: #fdf6ee;
+  --b-warm: #faf3eb;
+  --b-card: #ffffff;
+  --b-text: #2c3e50;
+  --b-muted: #5d6d7e;
+  --b-light: #95a5a6;
+  --b-border: #e8ddd0;
+  --b-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  --b-shadow-lg: 0 6px 18px rgba(0,0,0,0.10);
+  --b-radius: 12px;
+  --b-font: 'Berlin Sans FB', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --b-font-display: Gabriola, 'Playfair Display', Georgia, serif;
+}
+
+body.recipe-page {
+  background: var(--b-cream);
+  color: var(--b-text);
+  font-family: var(--b-font);
+  line-height: 1.55;
+  padding: 12px 16px 32px;
+  margin: 0;
+}
+
+/* Recipe header — big, airy, serif display type */
+.recipe-title {
+  font-family: var(--b-font-display);
+  font-size: 2.4em;
+  line-height: 1.15;
+  color: var(--b-primary);
+  text-align: center;
+  margin: 8px auto 4px;
+  max-width: 680px;
+  font-weight: normal;
+}
+.recipe-sub {
+  text-align: center;
+  color: var(--b-muted);
+  font-size: 0.85em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+
+/* Modern toolbar: clean pill links, replaces the old absolutely-positioned row */
+.recipe-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 20px;
+  padding: 10px 12px;
+  max-width: 720px;
+  background: var(--b-card);
+  border: 1px solid var(--b-border);
+  border-radius: 999px;
+  box-shadow: var(--b-shadow);
+}
+.recipe-toolbar a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.88em;
+  color: var(--b-primary);
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.recipe-toolbar a:hover {
+  background: var(--b-warm);
+  border-color: var(--b-border);
+}
+.recipe-toolbar a.recipe-toolbar-primary {
+  background: var(--b-primary);
+  color: #fff;
+}
+.recipe-toolbar a.recipe-toolbar-primary:hover {
+  background: var(--b-primary-dark);
+  color: #fff;
+}
+.recipe-toolbar a img {
+  width: 18px;
+  height: 18px;
+  border: 0;
+}
+
+/* Ingredient + method cards */
+.recipe-body {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.recipe-body .Basic-Text-Frame {
+  background: var(--b-card);
+  border: 1px solid var(--b-border);
+  border-radius: var(--b-radius);
+  box-shadow: var(--b-shadow);
+  padding: 18px 22px;
+  margin: 0 auto 16px;
+}
+.recipe-body p {
+  margin: 2px 0;
+}
+
+/* Nutrition card — replaces PNG-only layout */
+.nutrition-card {
+  background: linear-gradient(135deg, var(--b-card) 0%, var(--b-warm) 100%);
+  border: 1px solid var(--b-border);
+  border-left: 4px solid var(--b-accent);
+  border-radius: var(--b-radius);
+  box-shadow: var(--b-shadow);
+  padding: 16px 20px;
+  margin: 12px auto;
+  max-width: 720px;
+}
+.nutrition-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--b-border);
+}
+.nutrition-card-title {
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--b-primary);
+  font-weight: bold;
+}
+.nutrition-card-yield {
+  font-size: 1.1em;
+  color: var(--b-text);
+  font-weight: bold;
+}
+.nutrition-card-yield em {
+  font-style: normal;
+  color: var(--b-muted);
+  font-weight: normal;
+  font-size: 0.85em;
+}
+.nutrition-card-note {
+  font-size: 0.85em;
+  color: var(--b-muted);
+  margin: 6px 0 10px;
+  line-height: 1.5;
+}
+.nutrition-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.nutrition-card-actions a {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--b-primary);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85em;
+  border-radius: 20px;
+  font-weight: bold;
+  transition: background 0.15s ease;
+}
+.nutrition-card-actions a:hover {
+  background: var(--b-primary-dark);
+  color: #fff;
+}
+.nutrition-card-actions a.secondary {
+  background: transparent;
+  color: var(--b-primary);
+  border: 1px solid var(--b-primary);
+}
+.nutrition-card-actions a.secondary:hover {
+  background: var(--b-primary);
+  color: #fff;
+}
+.nutrition-original {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--b-border);
+}
+.nutrition-original summary {
+  font-size: 0.8em;
+  color: var(--b-muted);
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.nutrition-original img {
+  max-width: 280px;
+  height: auto;
+  display: block;
+  margin: 10px auto 0;
+  border: 1px solid var(--b-border);
+  border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .recipe-title { font-size: 2em; }
+  .recipe-body .Basic-Text-Frame { padding: 14px 16px; }
+  .nutrition-card { padding: 14px 16px; }
+}
+
+/* Print: clean, single column, no toolbar */
+@media print {
+  body.recipe-page { background: #fff; padding: 0; }
+  .recipe-toolbar, .nutrition-card-actions { display: none; }
+  .recipe-body .Basic-Text-Frame,
+  .nutrition-card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+}

@@ -547,8 +547,268 @@
   border: 1px solid #85c1e9;
 }
 
+/* Multi-timer layout */
+.timer-new {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 12px;
+}
+@media (max-width: 600px) {
+  .timer-new { grid-template-columns: 1fr; }
+}
+.timer-new-time {
+  display: flex;
+  gap: 16px;
+}
+.timer-preview {
+  text-align: center;
+  font-size: 1.4em;
+  font-family: 'Courier New', monospace;
+  color: var(--primary);
+  padding: 8px 0 12px;
+  letter-spacing: 2px;
+}
+.timer-empty {
+  text-align: center;
+  color: var(--text-medium);
+  font-size: 0.9em;
+  padding: 12px 0;
+  margin: 0;
+}
+.timer-row {
+  background: var(--bg-warm);
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--info);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  transition: border-color var(--transition), background var(--transition);
+}
+.timer-row.timer-paused  { border-left-color: var(--warning); }
+.timer-row.timer-done    { border-left-color: var(--danger); animation: timer-pulse 0.8s ease-in-out infinite; }
+.timer-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.timer-row-name {
+  font-weight: bold;
+  color: var(--text-dark);
+  font-size: 1.05em;
+}
+.timer-row-state {
+  font-size: 0.7em;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-medium);
+  padding: 2px 8px;
+  background: var(--bg-card);
+  border-radius: 20px;
+}
+.timer-row.timer-done .timer-row-state { color: var(--danger); font-weight: bold; }
+.timer-row-digits {
+  font-family: 'Courier New', monospace;
+  font-size: 2em;
+  color: var(--text-dark);
+  letter-spacing: 3px;
+  margin: 4px 0 8px;
+  text-align: center;
+}
+.timer-row.timer-done .timer-row-digits { color: var(--danger); }
+.timer-row-bar {
+  height: 6px;
+  background: var(--border-light);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.timer-row-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success) 0%, var(--info) 100%);
+  transition: width 1s linear;
+}
+.timer-row.timer-paused .timer-row-fill { background: var(--warning); }
+.timer-row.timer-done .timer-row-fill   { background: var(--danger); }
+.timer-row-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Multiplier extras */
+.multiplier-arrow {
+  color: var(--accent);
+  font-size: 1.5em;
+  padding-bottom: 10px;
+  text-align: center;
+  align-self: center;
+}
+.scaler-rules .rule-list {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 0.95em;
+  color: var(--text-medium);
+  line-height: 1.7;
+}
+.scaler-rules .rule-list strong { color: var(--primary); }
+
+/* Converter extras */
+.conv-aside {
+  color: var(--text-medium);
+  font-size: 0.85em;
+  font-weight: normal;
+}
+
+/* Shopping list */
+.shop-empty {
+  text-align: center;
+  color: var(--text-medium);
+  font-size: 0.95em;
+  padding: 16px 0;
+  margin: 0;
+}
+.shop-recipe {
+  background: var(--bg-warm);
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+.shop-recipe-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.shop-recipe-name {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  font-family: var(--font-body);
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color var(--transition);
+}
+.shop-recipe-name:focus { border-color: var(--primary); }
+.shop-recipe-ings {
+  min-height: 110px;
+  font-size: 0.9em;
+  padding: 10px 12px;
+}
+.shop-result-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 12px;
+}
+.shop-result-head h2 {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.shop-count {
+  font-size: 0.9em;
+  color: var(--text-medium);
+}
+.shop-count strong { color: var(--primary); }
+.shop-hint {
+  font-size: 0.85em;
+  color: var(--text-medium);
+  margin: 0 0 14px 0;
+  font-style: italic;
+}
+.shop-group {
+  margin-bottom: 18px;
+}
+.shop-group-title {
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--primary);
+  margin: 0 0 6px 0;
+  padding: 0 0 4px 2px;
+  border-bottom: 2px solid var(--border-light);
+  font-weight: bold;
+}
+.shop-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.shop-item {
+  padding: 6px 4px;
+  border-bottom: 1px dotted var(--border-light);
+}
+.shop-item:last-child { border-bottom: none; }
+.shop-item label {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  cursor: pointer;
+  width: 100%;
+}
+.shop-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--success);
+}
+.shop-item-qty {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: var(--text-medium);
+  min-width: 90px;
+  flex-shrink: 0;
+}
+.shop-item-name {
+  flex: 1;
+  color: var(--text-dark);
+  font-size: 0.95em;
+}
+.shop-tag {
+  font-size: 0.7em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 2px 6px;
+  background: #fdebd0;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+.shop-have .shop-item-qty,
+.shop-have .shop-item-name {
+  text-decoration: line-through;
+  color: var(--text-light);
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .multiplier-columns { flex-direction: column; }
+  .multiplier-servings { flex-wrap: wrap; }
+  .timer-new-time { flex-wrap: wrap; justify-content: center; }
+  .converter-row { flex-wrap: wrap; }
+  .converter-row .tool-input { flex: 1 1 140px; }
+  .tool-header h1 { font-size: 1.8em; }
+}
+
 /* Print styles */
 @media print {
-  .tool-btn, .timer-adjust-btn, .timer-preset-btn { display: none; }
+  .tool-btn, .timer-adjust-btn, .timer-preset-btn,
+  .timer-row-btns, audio { display: none; }
   .tool-card { box-shadow: none; border: 1px solid #ccc; }
 }

@@ -1,0 +1,4 @@
+node_modules/
+dist-desktop/
+package-lock.json
+yarn.lock
