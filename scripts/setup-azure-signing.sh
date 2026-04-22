@@ -93,6 +93,10 @@ add_federated_cred \
   "gh-main-branch" \
   "repo:$GITHUB_OWNER/$GITHUB_REPO:ref:refs/heads/main"
 
+add_federated_cred \
+  "gh-master-branch" \
+  "repo:$GITHUB_OWNER/$GITHUB_REPO:ref:refs/heads/master"
+
 # 4. Role assignment --------------------------------------------------------
 say "Granting 'Artifact Signing Certificate Profile Signer' on the cert profile"
 SCOPE="/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.CodeSigning/codeSigningAccounts/$SIGNING_ACCOUNT/certificateProfiles/$CERT_PROFILE"
