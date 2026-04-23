@@ -5,15 +5,36 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release tag to create (e.g. v0.1.0)'
+        required: true
+        default: 'v0.1.0'
 
 permissions:
-  contents: write       # create release + upload artifacts
+  contents: write       # create release + upload artifacts, create tag
   id-token: write       # required for Azure OIDC federated credential
   packages: read
 
 jobs:
+  # ───────── Resolve the version tag for this run ─────────
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.resolve.outputs.tag }}
+    steps:
+      - id: resolve
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          fi
+
   # ───────── Windows build + Azure Trusted Signing (OIDC) ─────────
   build-windows:
+    needs: version
     runs-on: windows-latest
     # Federated credential is scoped to this environment.
     # Create it in Settings → Environments → New environment → "release".
@@ -22,15 +43,6 @@ jobs:
       run:
         working-directory: desktop
     env:
-      # Fill these in as GitHub repo variables (Settings → Variables → Actions).
-      # AZURE_TENANT_ID  — your Azure AD tenant id
-      # AZURE_CLIENT_ID  — the App Registration that has the
-      #                    "Trusted Signing Certificate Profile Signer" role
-      #                    on your Trusted Signing Account
-      # AZURE_SUBSCRIPTION_ID — the subscription holding the signing account
-      # TS_ENDPOINT       — e.g. https://eus.codesigning.azure.net/
-      # TS_ACCOUNT_NAME   — your Trusted Signing Account name
-      # TS_CERT_PROFILE   — your Certificate Profile name
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
@@ -49,7 +61,6 @@ jobs:
       - name: Build unsigned Windows installer
         run: npm run build:win
         env:
-          # Tell electron-builder NOT to self-sign — Trusted Signing does it after.
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
 
       - name: Azure login (OIDC, no stored secret)
@@ -81,6 +92,7 @@ jobs:
 
   # ───────── macOS build (unsigned) ─────────
   build-macos:
+    needs: version
     runs-on: macos-latest
     defaults:
       run:
@@ -110,8 +122,42 @@ jobs:
             desktop/dist-desktop/*.dmg
             desktop/dist-desktop/*.zip
 
+  # ───────── Linux build (AppImage + .deb) ─────────
+  build-linux:
+    needs: version
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: desktop/package.json
+
+      - name: Install desktop deps
+        run: npm install --no-audit --no-fund
+
+      - name: Install FUSE (AppImage runtime)
+        run: sudo apt-get update && sudo apt-get install -y libfuse2
+
+      - name: Build Linux installers
+        run: npm run build:linux
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-installers
+          path: |
+            desktop/dist-desktop/*.AppImage
+            desktop/dist-desktop/*.deb
+
   # ───────── Android build (unsigned debug APK) ─────────
   build-android:
+    needs: version
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -151,13 +197,128 @@ jobs:
           name: android-apk
           path: mobile/android/app/build/outputs/apk/debug/*.apk
 
-  # ───────── Publish a GitHub Release with all artifacts ─────────
-  publish:
-    needs: [build-windows, build-macos, build-android]
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+  # ───────── iOS build (unsigned .ipa — sideload/developer use only) ─────────
+  build-ios:
+    needs: version
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: mobile
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: mobile/package.json
+
+      - name: Install Capacitor deps
+        run: npm install --no-audit --no-fund
+
+      - name: Stage web assets
+        run: npm run prepare-web
+
+      - name: Add iOS platform
+        run: npx cap add ios
+
+      - name: Sync Capacitor
+        run: npx cap sync ios
+
+      - name: Build unsigned iOS archive
+        run: |
+          cd ios/App
+          xcodebuild \
+            -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            archive
+
+      - name: Package unsigned IPA
+        run: |
+          cd "$RUNNER_TEMP"
+          mkdir -p Payload
+          cp -R App.xcarchive/Products/Applications/App.app Payload/
+          zip -qr TheBestofBrock-ios-unsigned.ipa Payload
+
+      - name: Upload iOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: ${{ runner.temp }}/TheBestofBrock-ios-unsigned.ipa
+
+  # ───────── Web / PWA zip (drop-in for any static host) ─────────
+  package-web:
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip PWA
+        run: |
+          mkdir -p out
+          zip -qr "out/TheBestofBrock-web-${{ needs.version.outputs.tag }}.zip" \
+            index.html manifest.webmanifest sw.js \
+            assets epub_work/OEBPS TheBestofBrock.epub
+
+      - name: Upload web PWA
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-pwa
+          path: out/*.zip
+
+  # ───────── Rebuild the EPUB from epub_work/ sources ─────────
+  package-epub:
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Repack EPUB from epub_work/
+        run: |
+          cd epub_work
+          rm -f "../TheBestofBrock.epub"
+          zip -X0 "../TheBestofBrock.epub" mimetype
+          zip -Xur9D "../TheBestofBrock.epub" META-INF OEBPS
+
+      - name: Upload EPUB
+        uses: actions/upload-artifact@v4
+        with:
+          name: epub
+          path: TheBestofBrock.epub
+
+  # ───────── Publish a GitHub Release with all artifacts ─────────
+  publish:
+    needs:
+      - version
+      - build-windows
+      - build-macos
+      - build-linux
+      - build-android
+      - build-ios
+      - package-web
+      - package-epub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create and push tag (manual dispatch only)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git rev-parse "${{ needs.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Tag ${{ needs.version.outputs.tag }} already exists, skipping."
+          else
+            git tag "${{ needs.version.outputs.tag }}"
+            git push origin "${{ needs.version.outputs.tag }}"
+          fi
 
       - uses: actions/download-artifact@v4
         with:
@@ -166,9 +327,14 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.version.outputs.tag }}
+          name: ${{ needs.version.outputs.tag }}
           files: |
             artifacts/windows-installers/*
             artifacts/macos-installers/*
+            artifacts/linux-installers/*
             artifacts/android-apk/*
-            TheBestofBrock.epub
+            artifacts/ios-ipa/*
+            artifacts/web-pwa/*
+            artifacts/epub/*
           generate_release_notes: true
