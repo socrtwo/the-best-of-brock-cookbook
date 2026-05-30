@@ -273,6 +273,41 @@ jobs:
           name: web-pwa
           path: out/*.zip
 
+  # ───────── ChromeOS PWA zip (installable from Chrome on a Chromebook) ─────────
+  # ChromeOS treats PWAs as first-class apps. This packages the same PWA the
+  # web leg ships, with a ChromeOS install note, so the release covers ChromeOS.
+  package-chromeos:
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip ChromeOS PWA
+        run: |
+          mkdir -p out
+          {
+            echo "The Best of Brock - ChromeOS"
+            echo ""
+            echo "ChromeOS treats PWAs as first-class apps; no APK or extension needed."
+            echo ""
+            echo "Install (recommended):"
+            echo "  1. Open the hosted cookbook in Chrome on your Chromebook."
+            echo "  2. Click the install icon in the address bar (or menu -> Install)."
+            echo "  3. It appears in your launcher and works offline."
+            echo ""
+            echo "Run from this bundle (offline): unzip into Files, open index.html in Chrome."
+            echo "Play-Store Chromebooks can alternatively sideload the Android APK."
+          } > INSTALL-CHROMEOS.txt
+          zip -qr "out/TheBestofBrock-chromeos-${{ needs.version.outputs.tag }}.zip" \
+            index.html manifest.webmanifest sw.js \
+            assets epub_work/OEBPS TheBestofBrock.epub INSTALL-CHROMEOS.txt
+
+      - name: Upload ChromeOS PWA
+        uses: actions/upload-artifact@v4
+        with:
+          name: chromeos-pwa
+          path: out/*.zip
+
   # ───────── Rebuild the EPUB from epub_work/ sources ─────────
   package-epub:
     needs: version
@@ -303,6 +338,7 @@ jobs:
       - build-android
       - build-ios
       - package-web
+      - package-chromeos
       - package-epub
     runs-on: ubuntu-latest
     steps:
@@ -336,5 +372,6 @@ jobs:
             artifacts/android-apk/*
             artifacts/ios-ipa/*
             artifacts/web-pwa/*
+            artifacts/chromeos-pwa/*
             artifacts/epub/*
           generate_release_notes: true
