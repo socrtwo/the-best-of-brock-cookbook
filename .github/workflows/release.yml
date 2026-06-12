@@ -273,6 +273,44 @@ jobs:
           name: web-pwa
           path: out/*.zip
 
+  # ───────── ChromeOS zip (same PWA payload + ChromeOS install notes) ─────────
+  package-chromeos:
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write ChromeOS install instructions
+        run: |
+          printf '%s\n' \
+            "# The Best of Brock ${{ needs.version.outputs.tag }} — ChromeOS" \
+            '' \
+            '## Install as an app (recommended)' \
+            '' \
+            '1. Open https://socrtwo.github.io/the-best-of-brock-cookbook/ in Chrome on your Chromebook.' \
+            '2. Click the install icon in the address bar ("Install app").' \
+            '3. The cookbook appears in the ChromeOS launcher — pin it to the shelf if you like.' \
+            '' \
+            '## About this zip' \
+            '' \
+            '- It contains the same PWA the hosted page serves, for self-hosting or offline use.' \
+            '- Host the folder on any static web server, or open index.html directly in Chrome.' \
+            '- The included TheBestofBrock.epub also opens in any EPUB reader.' \
+            > INSTALL.md
+
+      - name: Zip PWA + INSTALL.md
+        run: |
+          mkdir -p out
+          zip -qr "out/TheBestofBrock-chromeos-${{ needs.version.outputs.tag }}.zip" \
+            INSTALL.md index.html manifest.webmanifest sw.js \
+            assets epub_work/OEBPS TheBestofBrock.epub
+
+      - name: Upload ChromeOS PWA
+        uses: actions/upload-artifact@v4
+        with:
+          name: chromeos-pwa
+          path: out/*.zip
+
   # ───────── Rebuild the EPUB from epub_work/ sources ─────────
   package-epub:
     needs: version
@@ -303,6 +341,7 @@ jobs:
       - build-android
       - build-ios
       - package-web
+      - package-chromeos
       - package-epub
     runs-on: ubuntu-latest
     steps:
@@ -336,5 +375,6 @@ jobs:
             artifacts/android-apk/*
             artifacts/ios-ipa/*
             artifacts/web-pwa/*
+            artifacts/chromeos-pwa/*
             artifacts/epub/*
           generate_release_notes: true
